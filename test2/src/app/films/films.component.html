@@ -1,2 +1,17 @@
 <p>films works!</p>
-фыфывыв
+<div class="title">
+  {{ name | uppercase }}
+</div>
+<div class="auth">
+  @if (isLogin) { Вы авторизованы } @else { Авторизуйтесь }
+</div>
+<div class="film-list main__film-list">
+  @for (film of filmsList; track film.id){ @if(film.title){
+  <div class="film-list__name">
+    {{ film.title }}
+  </div>
+  {{ film.year }}
+  } }
+</div>
+<div class="number">{{ number | percent }}</div>
+<div class="number">{{ number | currency }}</div>
