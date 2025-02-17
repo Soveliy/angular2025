@@ -1,5 +1,48 @@
-<div class="list" *ngFor="let movie of movies">
-    <h2>
-        {{movie.nameRu}}
-    </h2>
+<div *ngIf="isLoading">Загрузка...</div>
+<div *ngIf="errorMessage">{{ errorMessage }}</div>
+<!-- Фильтр по жанрам и сортировка по году -->
+<div class="filters">
+  <label for="genreSelect">Жанр:</label>
+  <select id="genreSelect" [(ngModel)]="selectedGenre" (change)="filterMovies()">
+    <option value="">Все жанры</option>
+    <option *ngFor="let genre of genres" [value]="genre">{{ genre }}</option>
+  </select>
+
+  <label for="sort">Сортировать по:</label>
+  <select id="sort" [(ngModel)]="sortField">
+    <option value="">Без сортировки</option>
+    <option value="year">Год</option>
+    <option value="rating">Рейтинг</option>
+    <option value="rank">Место в топе</option>
+  </select>
+
+  <label for="order">Порядок:</label>
+  <select id="order" [(ngModel)]="sortOrder">
+    <option value="asc">По возрастанию</option>
+    <option value="desc">По убыванию</option>
+  </select>
+
+  <button (click)="applyFilters()">Применить</button>
+</div>
+
+<!-- Список фильмов -->
+<div class="movies-list" *ngIf="filteredMovies.length > 0">
+  <div class="movie-card" *ngFor="let movie of filteredMovies">
+    <img [src]="movie.posterUrlPreview" [alt]="movie.nameRu" />
+    <h3>{{ movie.nameRu }} ({{ movie.year }})</h3>
+    <p>Страна: {{ movie.countries[0]?.country }}</p>
+    <p>Жанр: {{ movie.genres[0]?.genre }}</p>
+    <p>Рейтинг КиноПоиск: {{ movie.ratingKinopoisk }}</p>
+  </div>
+</div>
+
+<!-- Пагинация -->
+<div class="pagination" *ngIf="totalPages > 1">
+  <button (click)="prevPage()" [disabled]="currentPage === 1">Назад</button>
+
+  <span>Страница</span>
+  <input type="number" [(ngModel)]="pageInput" (keyup.enter)="goToPage()" min="1" [max]="totalPages" />
+  <span>из {{ totalPages }}</span>
+
+  <button (click)="nextPage()" [disabled]="currentPage === totalPages">Вперёд</button>
 </div>
