@@ -1,5 +1,16 @@
-<div class="list" *ngFor="let movie of movies">
-    <h2>
-        {{movie.nameRu}}
-    </h2>
+<div class="films">
+    <div class="films__grid">
+        <div class="films-item" *ngFor="let movie of movies">
+            <div class="films-item__image">
+                <img [src]="movie.posterUrlPreview">
+            </div>
+            <div class="films-item__head">
+                <h3 class="films-item__name"> {{movie.nameRu}}</h3>
+                <div class="films-item__year"> {{ movie.year }}</div>
+            </div>
+            <div class="films-item__desc">
+                {{movie.description}}
+            </div>
+        </div>
+    </div>
 </div>
