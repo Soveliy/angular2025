@@ -1,3 +1,7 @@
+
+<div *ngIf="isLoading" class="loading">
+
+</div>
 <div class="films">
     <div class="films__grid">
         <div class="films-item" *ngFor="let movie of movies">
@@ -12,5 +16,18 @@
                 {{movie.description}}
             </div>
         </div>
+    </div>
+
+
+
+
+
+    <div class="pagination">
+        <button (click)="prevPage()"  class="pagination__button">
+            Назад
+        </button>
+        <button (click)="nextPage()" class="pagination__button">
+            Вперед
+        </button>
     </div>
 </div>

@@ -9,13 +9,15 @@ import { CommonModule } from '@angular/common';
 })
 export class TopComponent implements OnInit {
   movies: any[] = [];
-
+  isLoading = true;
+  currentPage = 1;
+  totalPages = 0;
   constructor(private http: HttpClient) { }
   ngOnInit(): void {
     this.getTopMovies();
   }
   getTopMovies(): void {
-    this.http.get<any>('https://kinopoiskapiunofficial.tech/api/v2.2/films/collections?type=TOP_250_MOVIES&page=1',
+    this.http.get<any>(`https://kinopoiskapiunofficial.tech/api/v2.2/films/collections?type=TOP_250_MOVIES&page=${this.currentPage}`,
       {
         headers: {
           'X-API-KEY': '63d28fb1-f0f3-490e-ad75-8cfe6a51aabc',
@@ -25,10 +27,27 @@ export class TopComponent implements OnInit {
       .subscribe({
         next: (data) => {
           this.movies = data.items;
-          console.log(this.movies)
+          console.log(data)
+          this.totalPages = data.totalPages;
+          this.isLoading = false;
         }
 
       })
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.getTopMovies();
+    }
+
+  }
+
+  prevPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.getTopMovies();
+    }
   }
 
 }
