@@ -3,8 +3,14 @@
 
 </div>
 <div class="films">
+    <select [(ngModel)]="selecetedGenre" (change)="filterMovies()">
+        <option value="">Все жанры</option>
+        <option *ngFor="let genre of genres" [value]="genre">
+            {{ genre }}
+        </option>
+    </select>
     <div class="films__grid">
-        <div class="films-item" *ngFor="let movie of movies">
+        <div class="films-item" *ngFor="let movie of filteredMovies">
             <div class="films-item__image">
                 <img [src]="movie.posterUrlPreview">
             </div>
@@ -15,6 +21,9 @@
             <div class="films-item__desc">
                 {{movie.description}}
             </div>
+            <div class="films-item__genre">
+                {{ movie.genres[0].genre }}
+            </div>
         </div>
     </div>
 
@@ -23,9 +32,10 @@
 
 
     <div class="pagination">
-        <button (click)="prevPage()"  class="pagination__button">
+        <button (click)="prevPage()" [disabled]="currentPage === 1" class="pagination__button">
             Назад
         </button>
+        <input [(ngModel)]="pageInput" type="number" (keyup.enter)="goToPage()" min="1" [max]="totalPages"> 
         <button (click)="nextPage()" class="pagination__button">
             Вперед
         </button>
