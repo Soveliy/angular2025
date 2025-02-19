@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-top',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './top.component.html',
   styleUrl: './top.component.scss'
 })
@@ -38,7 +38,7 @@ export class TopComponent implements OnInit {
           console.log(data.items)
           this.totalPages = data.totalPages;
           this.isLoading = false;
-          console.log(this.currentPage);
+          console.log();
           this.getGenres();
           this.applyFilters()
           console.log(this.genres);

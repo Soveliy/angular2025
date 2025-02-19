@@ -11,6 +11,7 @@
     </select>
     <div class="films__grid">
         <div class="films-item" *ngFor="let movie of filteredMovies">
+            <a [routerLink]="['/film', movie.kinopoiskId]">Подробнее </a>
             <div class="films-item__image">
                 <img [src]="movie.posterUrlPreview">
             </div>
@@ -24,6 +25,8 @@
             <div class="films-item__genre">
                 {{ movie.genres[0].genre }}
             </div>
+
+         
         </div>
     </div>
 
