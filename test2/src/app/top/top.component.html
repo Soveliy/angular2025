@@ -35,7 +35,7 @@
         <button (click)="prevPage()" [disabled]="currentPage === 1" class="pagination__button">
             Назад
         </button>
-        <input [(ngModel)]="pageInput" type="number" (keyup.enter)="goToPage()" min="1" [max]="totalPages"> 
+        <input [(ngModel)]="pageInput" type="number" (keyup.enter)="goToPage()" min="1"  [max]="totalPages"> 
         <button (click)="nextPage()" class="pagination__button">
             Вперед
         </button>

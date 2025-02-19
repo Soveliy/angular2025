@@ -59,7 +59,7 @@ export class TopComponent implements OnInit {
   }
   applyFilters(): void {
     let movies = [...this.movies];
-    if (this.selecetedGenre ) {
+    if (this.selecetedGenre) {
       movies = movies.filter((movie) =>
         movie.genres.some((g: any) => g.genre === this.selecetedGenre));
       this.filteredMovies = movies;
