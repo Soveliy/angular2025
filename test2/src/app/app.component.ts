@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { DetailFilmComponent } from './detail-film/detail-film.component';
 @Component({
   selector: 'my-root',
-  imports: [RouterOutlet, HttpClientModule, RouterLink, DetailFilmComponent],
+  imports: [RouterOutlet, HttpClientModule, RouterLink],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

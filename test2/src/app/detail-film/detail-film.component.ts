@@ -1,37 +1,29 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
+import { MovieService, Movie } from '../movie-servic.service';
+import { Observable } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
+
 @Component({
   selector: 'app-detail-film',
-  imports: [],
+  imports: [AsyncPipe],
+  providers: [MovieService],
   templateUrl: './detail-film.component.html',
   styleUrl: './detail-film.component.scss'
 })
 export class DetailFilmComponent implements OnInit {
-  movie: any;
+  public movie: Movie | null = null;
+  public movie$: Observable<Movie> | undefined;
   constructor(
     private route: ActivatedRoute,
-    private http: HttpClient
+    private movieService: MovieService
   ) { }
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.getMovie(id);
+      this.movie$ = this.movieService.getMovie(id)
+
     }
   }
-  getMovie(id: string): void {
-    this.http.get<any>(`https://kinopoiskapiunofficial.tech/api/v2.2/films/${id}`,
-      {
-        headers: {
-          'X-API-KEY': '63d28fb1-f0f3-490e-ad75-8cfe6a51aabc',
-          'Content-Type': 'application/json',
-        },
-      })
-      .subscribe({
-        next: (data) => {
-          this.movie = data;
-        }
 
-      })
-  }
 }
