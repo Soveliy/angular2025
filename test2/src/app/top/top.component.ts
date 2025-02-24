@@ -3,14 +3,19 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { MovieService, Movies,MoviesResponse } from '../movie-servic.service';
+import { AsyncPipe } from '@angular/common';
+
 @Component({
   selector: 'app-top',
-  imports: [CommonModule, FormsModule, RouterLink],
+  providers:[MovieService],
+  imports: [CommonModule, FormsModule, RouterLink,AsyncPipe],
   templateUrl: './top.component.html',
   styleUrl: './top.component.scss'
 })
 export class TopComponent implements OnInit {
   movies: any[] = [];
+
   isLoading = true;
   currentPage = 1;
   totalPages = 1;
@@ -20,32 +25,31 @@ export class TopComponent implements OnInit {
   filteredMovies: any[] = [];
 
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private movieService: MovieService
+  ) { }
   ngOnInit(): void {
     this.getTopMovies();
   }
-  getTopMovies(): void {
-    this.http.get<any>(`https://kinopoiskapiunofficial.tech/api/v2.2/films/collections?type=TOP_250_MOVIES&page=${this.currentPage}`,
-      {
-        headers: {
-          'X-API-KEY': '63d28fb1-f0f3-490e-ad75-8cfe6a51aabc',
-          'Content-Type': 'application/json',
-        },
-      })
-      .subscribe({
-        next: (data) => {
-          this.movies = data.items;
-          console.log(data.items)
-          this.totalPages = data.totalPages;
-          this.isLoading = false;
-          console.log();
-          this.getGenres();
-          this.applyFilters()
-          console.log(this.genres);
-        }
 
-      })
+  getTopMovies(): void {
+    this.isLoading = true;
+    this.movieService.getTop(this.currentPage).subscribe({
+      next: (data) => {
+        this.movies = data.items; // items теперь извлекаются из ответа
+        this.totalPages = data.totalPages; // totalPages из ответа
+        this.getGenres();
+        this.applyFilters();
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Ошибка при получении фильмов:', err);
+        this.isLoading = false;
+      }
+    });
   }
+
 
   getGenres(): void {
     const allGenres = new Set<string>();
